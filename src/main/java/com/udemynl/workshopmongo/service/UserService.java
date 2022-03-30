@@ -1,6 +1,7 @@
 package com.udemynl.workshopmongo.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,17 @@ public class UserService {
 	
 	public User insert(User user) {
 		return userRepository.insert(user);
+	}
+	
+	public void delete(String id) {
+		
+		
+		try {
+			Optional<User> found = userRepository.findById(id);
+			userRepository.delete(found.get());
+		}catch(NoSuchElementException e) {
+			throw new ObjectNotFoundException(e.getMessage());
+		}
 	}
 	
 	public User fromDTO(UserDTO userDto) {
