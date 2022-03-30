@@ -32,8 +32,7 @@ public class UserService {
 	}
 	
 	public void delete(String id) {
-		
-		
+	
 		try {
 			Optional<User> found = userRepository.findById(id);
 			userRepository.delete(found.get());
@@ -41,6 +40,15 @@ public class UserService {
 			throw new ObjectNotFoundException(e.getMessage());
 		}
 	}
+	
+	public User update(String id, User obj) {
+		Optional<User> found = userRepository.findById(id);
+		found.get().setName(obj.getName());
+		found.get().setEmail(obj.getEmail());
+		
+		return userRepository.save(found.get());
+	}
+	
 	
 	public User fromDTO(UserDTO userDto) {
 		return new User(userDto.getId(), userDto.getName(), userDto.getEmail());
